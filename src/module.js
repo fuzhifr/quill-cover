@@ -15,16 +15,11 @@ class TweetBlot extends BlockEmbed {
     // This method needs to be called for any non-quill environments
     // otherwise, tweets will not be rendered
     var tweets = document.querySelectorAll("div.ql-tweet");
-    TwitterWidgetsLoader.load(function (err, twttr) {
-      if (err) {
-        //do some graceful degradation / fallback
-        return;
-      }
+
       for (var i = 0; i < tweets.length; i++) {
         while (tweets[i].firstChild) { tweets[i].removeChild(tweets[i].firstChild); }
         twttr.widgets.createTweet(tweets[i].dataset.id, tweets[i]);
       }
-    });
 
   }
 
@@ -34,15 +29,13 @@ class TweetBlot extends BlockEmbed {
     let id = url.substr(url.lastIndexOf("/") + 1);
     node.dataset.url = url;
     node.dataset.id = id;
-    // Allow twitter library to modify our contents
 
-    TwitterWidgetsLoader.load(function (err, twttr) {
-      if (err) {
-        //do some graceful degradation / fallback
-        return;
-      }
-      twttr.widgets.createTweet(id, node);
-    });
+    let img = document.createElement("img");
+    img.src = "https://pbs.twimg.com/media/Dkgu9f9XsAAWYWk.jpg";
+    node.appendChild(img);
+    let text = document.createElement("DIV");
+    text.innerText = "测试一下咯";
+    node.appendChild(text);
     return node;
 
   }
@@ -59,7 +52,7 @@ class TweetBlot extends BlockEmbed {
     return Link.sanitize(url) // eslint-disable-line import/no-named-as-default-member
   }
 }
-TweetBlot.blotName = 'tweet';
+TweetBlot.blotName = 'xcid';
 TweetBlot.tagName = 'div';
 TweetBlot.className = 'ql-tweet';
 
